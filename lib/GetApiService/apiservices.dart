@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:tradingapp/Authentication/auth_services.dart';
 import 'package:tradingapp/Screens/Mainscreens/Dashboard/FII/DII/fii_dii_screen.dart';
+import 'package:tradingapp/model/profile_model.dart';
 import 'package:tradingapp/model/trade_balance_model.dart';
 import 'package:tradingapp/model/userProfile_model.dart';
 
@@ -235,7 +236,7 @@ class ApiService {
   Future<Map<String, dynamic>> fetchFiiDiiDetailsMonthly() async {
     final response = await http.get(Uri.parse(
         'http://192.168.130.48:9010/v1/get_fii_data_cash_fo_index_stocks/?type=cash'));
-print(response.body);
+    print(response.body);
     if (response.statusCode == 200) {
       return json.decode(response.body) as Map<String, dynamic>;
     } else {
@@ -502,7 +503,7 @@ print(response.body);
     }
   }
 
-  Future<UserProfile> fetchUserProfile(String token) async {
+  Future<UserProfile> fetchUserProfile() async {
     String? token = await getToken();
     if (token == null) {
       throw Exception('User is not logged in');
@@ -557,7 +558,7 @@ print(response.body);
           throw Exception('No balance with limitHeader "ALL|ALL|ALL" found');
         }
         print("3456789876545678${filteredBalances.first}");
-        return filteredBalances.first ;
+        return filteredBalances.first;
       } else {
         if (response.statusCode == 401) {
           throw Exception('Unauthorized');
@@ -568,5 +569,65 @@ print(response.body);
       print('Caught error: $e');
       throw Exception('Failed to load user profile due to an error: $e');
     }
+  }
+
+  Future<UserProfile?> fetchDUserProfile(String clientID, String userID) async {
+    final String apiUrl =
+        'http://14.97.72.10:3000/enterprise/user/profile?clientID=$clientID&userID=$userID';
+
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
+
+      if (response.statusCode == 200) {
+        // Parse the JSON data
+        final jsonData = json.decode(response.body);
+        if (jsonData['type'] == 'success') {
+          // Convert JSON data to UserProfile object
+          return UserProfile.fromJson(jsonData);
+        } else {
+          print('Error: ${jsonData['description']}');
+          return null;
+        }
+      } else {
+        print(
+            'Error: Failed to fetch data. Status code: ${response.statusCode}');
+        return null;
+      }
+    } catch (error) {
+      print('Error: $error');
+      return null;
+    }
+  }
+
+  Future<dynamic> GetUserProfile(String clientID, String userID) async {
+    String? Token = await getToken();
+    print('Token: $Token');
+
+    try {
+      final response = await http.get(
+        Uri.parse(
+            'http://14.97.72.10:3000/enterprise/user/profile?clientID=A0032&userID=A0032'),
+        headers: {
+          'Authorization': Token.toString(),
+        },
+      );
+      print(response.body);
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(response.body);
+       if (jsonData['type'] == 'success') {
+  return jsonData['result'];
+
+     
+        } else {
+          final error = 'Error: ${jsonData['description']}';
+          return error;
+        }
+      } else {
+        return 'Error: Failed to fetch data. Status code: ${response.statusCode}';
+      }
+    } catch (error) {
+      return 'Error: $error';
+      
+    }throw Exception('Failed to get user profile');
   }
 }

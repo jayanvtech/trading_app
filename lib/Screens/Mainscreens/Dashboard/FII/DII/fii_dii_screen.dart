@@ -32,6 +32,7 @@ class _FiiDiiScreenState extends State<FiiDiiScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+ 
       appBar: AppBar(
         title: Text('Fii Dii Screen'),
         bottom: TabBar(
@@ -54,6 +55,7 @@ class _FiiDiiScreenState extends State<FiiDiiScreen>
       ),
     );
   }
+  
 }
 
 class CashFiiDII extends StatefulWidget {
@@ -286,9 +288,12 @@ class _CashFiiDIIState extends State<CashFiiDII> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         final fiiDiiDetails = snapshot.data!;
+        
+                        
                         return Container(
                           height: MediaQuery.of(context).size.height,
                           child: ListView.separated(
+
                             separatorBuilder:
                                 (BuildContext context, int index) {
                               return Divider();

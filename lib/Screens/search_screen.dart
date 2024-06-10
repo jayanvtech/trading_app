@@ -137,25 +137,18 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       title: GestureDetector(
           onTap: () {
-             Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                          builder: (context) =>
-                                                              ViewMoreInstrumentDetailScreen(
-                                                            exchangeInstrumentId:
-                                                                item['ExchangeInstrumentID']
-                                                                    .toString(),
-                                                            exchangeSegment:
-                                                                item['ExchangeSegment']
-                                                                    .toString(),
-                                                            lastTradedPrice:
-                                                                close.toString(),
-                                                            close: close.toString(),
-                                                            displayName:
-                                                                item['Name'],
-                                                          ),
-                                                        ),
-                                                      );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ViewMoreInstrumentDetailScreen(
+                  exchangeInstrumentId: item['ExchangeInstrumentID'].toString(),
+                  exchangeSegment: item['ExchangeSegment'].toString(),
+                  lastTradedPrice: close.toString(),
+                  close: close.toString(),
+                  displayName: item['Name'],
+                ),
+              ),
+            );
           },
           child: Text(item['Name'] ?? 'No name')),
       subtitle: Text(item['CompanyName'] ?? 'No company name'),

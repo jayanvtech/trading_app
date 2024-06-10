@@ -24,6 +24,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
+    balanceRefresher();
     SubscribeInstrument();
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
@@ -34,6 +35,17 @@ class _MainScreenState extends State<MainScreen> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     
   }
+
+  Future<String?> balanceRefresher() async {
+  await ApiService().GetBalance();
+
+ setState(() {
+   
+
+ });
+  return 'done';
+}
+
 Future<void> SubscribeInstrument() async {
    await ApiService().MarketInstrumentSubscribe(1.toString(), 26000.toString());
   await ApiService().MarketInstrumentSubscribe(1.toString(), 26001.toString());

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tradingapp/Authentication/Login_bloc/login_bloc.dart';
+import 'package:tradingapp/Screens/Mainscreens/Dashboard/profile_details_screen.dart';
 import 'package:tradingapp/Screens/Mainscreens/profilepage_screen.dart';
 import 'package:tradingapp/Utils/changenotifier.dart';
 import 'package:tradingapp/Screens/Mainscreens/Dashboard/dashboard_screen.dart';
@@ -45,8 +46,10 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => MarketFeedSocket()..connect(),
         ),
+        
         BlocProvider<LoginBloc>(
           create: (BuildContext context) => LoginBloc(),
+          
         ),
         ChangeNotifierProvider(
           create: (context) => TradeProvider(),
@@ -101,4 +104,7 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+
+
+  
 }
